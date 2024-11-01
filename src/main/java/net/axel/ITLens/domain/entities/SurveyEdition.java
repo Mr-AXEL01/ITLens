@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -41,4 +43,7 @@ public class SurveyEdition implements Serializable {
     @ManyToOne
     @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
+
+    @OneToMany(mappedBy = "surveyEdition", cascade = CascadeType.ALL)
+    private Set<Chapter> chapters = new HashSet<>();
 }
