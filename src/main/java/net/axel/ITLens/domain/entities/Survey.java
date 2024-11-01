@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,4 +35,7 @@ public class Survey implements Serializable {
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Owner owner;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    private Set<SurveyEdition> surveyEditions = new HashSet<>();
 }
