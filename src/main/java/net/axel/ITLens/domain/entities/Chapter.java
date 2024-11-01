@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +27,13 @@ public class Chapter implements Serializable {
     @NotBlank
     @Column(name = "chapter_title")
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_chapter_id")
+    private Chapter parentChapter;
+
+    @OneToMany(mappedBy = "parentChapter")
+    private List<Chapter> subChapters = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "survey_edition_id", nullable = false)
