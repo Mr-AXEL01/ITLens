@@ -1,4 +1,4 @@
-package net.axel.ITLens.util.mapper;
+package net.axel.ITLens.mapper;
 
 import net.axel.ITLens.domain.dtos.survey.SurveyRequestDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;

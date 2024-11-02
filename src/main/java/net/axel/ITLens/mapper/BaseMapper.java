@@ -1,4 +1,4 @@
-package net.axel.ITLens.util.mapper;
+package net.axel.ITLens.mapper;
 
 public interface BaseMapper<E, R, D> {
     E toEntity(D dto);
