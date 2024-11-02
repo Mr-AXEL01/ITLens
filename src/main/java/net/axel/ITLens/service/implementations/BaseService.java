@@ -3,7 +3,7 @@ package net.axel.ITLens.service.implementations;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import net.axel.ITLens.service.interfaces.IBaseService;
-import net.axel.ITLens.util.mapper.BaseMapper;
+import net.axel.ITLens.mapper.BaseMapper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
