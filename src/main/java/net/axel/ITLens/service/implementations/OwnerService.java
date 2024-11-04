@@ -6,9 +6,11 @@ import net.axel.ITLens.domain.entities.Owner;
 import net.axel.ITLens.mapper.OwnerMapper;
 import net.axel.ITLens.repository.OwnerRepository;
 import net.axel.ITLens.service.interfaces.IOwnerService;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class OwnerService extends BaseService<Owner, OwnerRequestDTO, OwnerResponseDTO, UUID> implements IOwnerService {
 
     public OwnerService(OwnerRepository repository, OwnerMapper mapper) {
