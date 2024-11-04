@@ -1,4 +1,14 @@
 package net.axel.ITLens.domain.dtos.chapter;
 
-public interface ChapterRequestDTO {
+import jakarta.validation.constraints.NotNull;
+
+import java.util.UUID;
+
+public record ChapterRequestDTO (
+        @NotNull String title,
+
+        @NotNull UUID  surveyEditionId,
+
+        UUID chapterId
+) {
 }

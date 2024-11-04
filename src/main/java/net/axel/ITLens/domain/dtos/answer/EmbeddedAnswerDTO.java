@@ -4,9 +4,11 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record AnswerRequestDTO(
+public record EmbeddedAnswerDTO(
+        @NotNull UUID id,
+
         @NotNull String text,
 
-        @NotNull UUID questionId
+        @NotNull Integer selectionCount
 ) {
 }

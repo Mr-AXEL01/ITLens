@@ -6,11 +6,13 @@ import net.axel.ITLens.domain.enums.QuestionType;
 
 import java.util.UUID;
 
-public record QuestionRequestDTO(
+public record EmbeddedQuestionDTO(
+        @NotNull UUID id,
+
         @NotBlank String text,
 
         @NotBlank QuestionType questionType,
 
-        @NotNull UUID chapterId
+        @NotNull Integer answerCount
 ) {
 }
