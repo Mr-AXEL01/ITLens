@@ -2,6 +2,7 @@ package net.axel.ITLens.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 import net.axel.ITLens.domain.enums.QuestionType;
@@ -34,6 +35,7 @@ public class Question implements Serializable {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
+    @NotNull
     @Column(name = "answer_count")
     private Integer answerCount;
 
