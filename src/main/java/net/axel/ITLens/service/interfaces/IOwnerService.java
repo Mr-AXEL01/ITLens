@@ -6,5 +6,5 @@ import net.axel.ITLens.domain.entities.Owner;
 
 import java.util.UUID;
 
-public interface IOwnerService extends IBaseService<Owner, OwnerRequestDTO, OwnerResponseDTO, UUID>{
+public interface IOwnerService extends IBaseService<Owner, OwnerRequestDTO, OwnerResponseDTO, UUID> {
 }
