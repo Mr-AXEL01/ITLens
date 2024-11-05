@@ -1,5 +1,6 @@
 package net.axel.ITLens.service.implementations;
 
+import jakarta.transaction.Transactional;
 import net.axel.ITLens.domain.dtos.owner.OwnerRequestDTO;
 import net.axel.ITLens.domain.dtos.owner.OwnerResponseDTO;
 import net.axel.ITLens.domain.entities.Owner;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class OwnerService extends BaseService<Owner, OwnerRequestDTO, OwnerResponseDTO, UUID> implements IOwnerService {
 
     public OwnerService(OwnerRepository repository, OwnerMapper mapper) {
