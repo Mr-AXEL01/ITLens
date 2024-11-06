@@ -19,21 +19,34 @@ import java.util.UUID;
 public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyResponseDTO, UUID> implements ISurveyService {
 
     private final OwnerService ownerService;
-    private final OwnerMapper ownerMapper;
 
-    public SurveyService(SurveyRepository repository, SurveyMapper mapper, OwnerService ownerService, OwnerMapper ownerMapper) {
+    public SurveyService(SurveyRepository repository, SurveyMapper mapper, OwnerService ownerService) {
         super(repository, mapper);
         this.ownerService = ownerService;
-        this.ownerMapper = ownerMapper;
+    }
+
+    @Override
+    public SurveyResponseDTO create(SurveyRequestDTO dto) {
+        Survey survey = mapper.toEntity(dto)
+                .setOwner(owner(dto.ownerId()));
+
+        Survey savedSurvey = repository.save(survey);
+
+        return mapper.toResponseDto(savedSurvey);
     }
 
     @Override
     protected void updateEntity(Survey survey, SurveyRequestDTO dto) {
-        OwnerResponseDTO ownerResponse = ownerService.getById(dto.ownerId());
-        Owner owner = ownerMapper.toEntityFromResponseDto(ownerResponse);
-
         survey.setTitle(dto.title())
                 .setDescription(dto.description())
-                .setOwner(owner);
+                .setOwner(owner(dto.ownerId()));
+    }
+
+    private Owner owner(UUID ownerId) {
+        return ownerService
+                .mapper
+                .toEntityFromResponseDto(
+                        ownerService.getById(ownerId)
+                );
     }
 }
