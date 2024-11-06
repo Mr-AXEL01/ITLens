@@ -1,12 +1,10 @@
 package net.axel.ITLens.service.implementations;
 
 import jakarta.transaction.Transactional;
-import net.axel.ITLens.domain.dtos.owner.OwnerResponseDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyRequestDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
 import net.axel.ITLens.domain.entities.Owner;
 import net.axel.ITLens.domain.entities.Survey;
-import net.axel.ITLens.mapper.OwnerMapper;
 import net.axel.ITLens.mapper.SurveyMapper;
 import net.axel.ITLens.repository.SurveyRepository;
 import net.axel.ITLens.service.interfaces.ISurveyService;
