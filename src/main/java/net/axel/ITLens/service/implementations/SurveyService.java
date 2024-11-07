@@ -33,7 +33,6 @@ public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyR
                 .setOwner(owner(dto.ownerId()));
 
         Survey savedSurvey = repository.save(survey);
-        System.out.printf("ok db hena : "+ savedSurvey);
 
         return mapper.toResponseDto(savedSurvey);
     }
@@ -47,9 +46,6 @@ public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyR
 
     private Owner owner(UUID ownerId) {
         OwnerResponseDTO ownerResponse = ownerService.getById(ownerId);
-        System.out.println("ha 7ena hena :"+ownerResponse);
-        Owner owner = ownerMapper.toEntityFromResponseDto(ownerResponse);
-        System.out.println("ha 7ena hena :"+owner);
-        return owner;
+        return ownerMapper.toEntityFromResponseDto(ownerResponse);
     }
 }
