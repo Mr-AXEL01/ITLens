@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.util.UUID;
 
-public record SurveyEditionRequestDTO (
+public record SurveyEditionRequestDTO(
         @NotNull LocalDate creationDate,
 
         @NotNull LocalDate startDate,
@@ -14,5 +14,5 @@ public record SurveyEditionRequestDTO (
         @NotNull Year year,
 
         @NotNull UUID surveyId
-        ) {
+) {
 }
