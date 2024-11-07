@@ -3,6 +3,7 @@ package net.axel.ITLens.service.implementations;
 import jakarta.transaction.Transactional;
 import net.axel.ITLens.domain.dtos.chapter.ChapterRequestDTO;
 import net.axel.ITLens.domain.dtos.chapter.ChapterResponseDTO;
+import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionResponseDTO;
 import net.axel.ITLens.domain.entities.Chapter;
 import net.axel.ITLens.domain.entities.SurveyEdition;
 import net.axel.ITLens.mapper.ChapterMapper;
@@ -30,15 +31,22 @@ public class ChapterService extends BaseService<Chapter, ChapterRequestDTO, Chap
 
     @Override
     public ChapterResponseDTO create(ChapterRequestDTO dto) {
+        Chapter chapter = mapper.toEntity(dto)
+                .setSurveyEdition(surveyEdition(dto.surveyEditionId()));
 
+        Chapter savedChapter = repository.save(chapter);
+
+        return mapper.toResponseDto(savedChapter);
     }
 
     @Override
     protected void updateEntity(Chapter chapter, ChapterRequestDTO dto) {
-
+        chapter.setTitle(dto.title())
+                .setSurveyEdition(surveyEdition(dto.surveyEditionId()));
     }
 
     private SurveyEdition surveyEdition(UUID surveyEditionId) {
-
+        SurveyEditionResponseDTO surveyEditionResponse = surveyEditionService.getById(surveyEditionId);
+        return surveyEditionMapper.toEntityFromResponseDto(surveyEditionResponse);
     }
 }
