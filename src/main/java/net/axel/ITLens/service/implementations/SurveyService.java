@@ -1,10 +1,12 @@
 package net.axel.ITLens.service.implementations;
 
 import jakarta.transaction.Transactional;
+import net.axel.ITLens.domain.dtos.owner.OwnerResponseDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyRequestDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
 import net.axel.ITLens.domain.entities.Owner;
 import net.axel.ITLens.domain.entities.Survey;
+import net.axel.ITLens.mapper.OwnerMapper;
 import net.axel.ITLens.mapper.SurveyMapper;
 import net.axel.ITLens.repository.SurveyRepository;
 import net.axel.ITLens.service.interfaces.ISurveyService;
@@ -17,10 +19,12 @@ import java.util.UUID;
 public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyResponseDTO, UUID> implements ISurveyService {
 
     private final OwnerService ownerService;
+    private final OwnerMapper ownerMapper;
 
-    public SurveyService(SurveyRepository repository, SurveyMapper mapper, OwnerService ownerService) {
+    public SurveyService(SurveyRepository repository, SurveyMapper mapper, OwnerService ownerService, OwnerMapper ownerMapper) {
         super(repository, mapper);
         this.ownerService = ownerService;
+        this.ownerMapper = ownerMapper;
     }
 
     @Override
@@ -29,6 +33,7 @@ public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyR
                 .setOwner(owner(dto.ownerId()));
 
         Survey savedSurvey = repository.save(survey);
+        System.out.printf("ok db hena : "+ savedSurvey);
 
         return mapper.toResponseDto(savedSurvey);
     }
@@ -41,10 +46,10 @@ public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyR
     }
 
     private Owner owner(UUID ownerId) {
-        return ownerService
-                .mapper
-                .toEntityFromResponseDto(
-                        ownerService.getById(ownerId)
-                );
+        OwnerResponseDTO ownerResponse = ownerService.getById(ownerId);
+        System.out.println("ha 7ena hena :"+ownerResponse);
+        Owner owner = ownerMapper.toEntityFromResponseDto(ownerResponse);
+        System.out.println("ha 7ena hena :"+owner);
+        return owner;
     }
 }
