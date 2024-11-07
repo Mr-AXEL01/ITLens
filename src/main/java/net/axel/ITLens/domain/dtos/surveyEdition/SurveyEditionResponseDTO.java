@@ -2,6 +2,7 @@ package net.axel.ITLens.domain.dtos.surveyEdition;
 
 import jakarta.validation.constraints.NotNull;
 import net.axel.ITLens.domain.dtos.chapter.EmbeddedChapterDTO;
+import net.axel.ITLens.domain.dtos.survey.EmbeddedSurveyDTO;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -17,7 +18,7 @@ public record SurveyEditionResponseDTO (
 
         @NotNull Year year,
 
-        @NotNull UUID surveyId,
+        @NotNull EmbeddedSurveyDTO survey,
 
         List<EmbeddedChapterDTO> chapters
 ) {
