@@ -11,7 +11,7 @@ public record ChapterResponseDTO (
 
         @NotNull String title,
 
-        String parentChapter,
+        EmbeddedChapterDTO parentChapter,
 
         List<EmbeddedChapterDTO> subChapters,
 
