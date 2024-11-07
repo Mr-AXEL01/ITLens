@@ -32,10 +32,13 @@ public class Chapter implements Serializable {
     @JoinColumn(name = "parent_chapter_id")
     private Chapter parentChapter;
 
-    @OneToMany(mappedBy = "parentChapter")
+    @OneToMany(mappedBy = "parentChapter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chapter> subChapters = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "survey_edition_id", nullable = false)
     private SurveyEdition surveyEdition;
+
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
 }
