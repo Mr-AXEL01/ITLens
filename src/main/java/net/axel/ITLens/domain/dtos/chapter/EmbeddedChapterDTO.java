@@ -10,8 +10,6 @@ public record EmbeddedChapterDTO(
 
         @NotNull String title,
 
-        String parentChapter,
-
         List<EmbeddedChapterDTO> subChapters
 ) {
 }
