@@ -34,6 +34,10 @@ public class ChapterService extends BaseService<Chapter, ChapterRequestDTO, Chap
         Chapter chapter = mapper.toEntity(dto)
                 .setSurveyEdition(surveyEdition(dto.surveyEditionId()));
 
+        if(dto.chapterId() != null) {
+            chapter.setParentChapter(chapter(dto.chapterId()));
+        }
+
         Chapter savedChapter = repository.save(chapter);
 
         return mapper.toResponseDto(savedChapter);
@@ -43,10 +47,20 @@ public class ChapterService extends BaseService<Chapter, ChapterRequestDTO, Chap
     protected void updateEntity(Chapter chapter, ChapterRequestDTO dto) {
         chapter.setTitle(dto.title())
                 .setSurveyEdition(surveyEdition(dto.surveyEditionId()));
+        if(dto.chapterId() != null) {
+            chapter.setParentChapter(chapter(dto.chapterId()));
+        }
     }
 
     private SurveyEdition surveyEdition(UUID surveyEditionId) {
         SurveyEditionResponseDTO surveyEditionResponse = surveyEditionService.getById(surveyEditionId);
         return surveyEditionMapper.toEntityFromResponseDto(surveyEditionResponse);
+    }
+
+    private Chapter chapter(UUID chapterId) {
+        return mapper
+                .toEntityFromResponseDto(
+                        getById(chapterId)
+                );
     }
 }
