@@ -1,6 +1,7 @@
 package net.axel.ITLens.domain.dtos.chapter;
 
 import jakarta.validation.constraints.NotNull;
+import net.axel.ITLens.domain.dtos.question.EmbeddedQuestionDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.EmbeddedSurveyEditionDTO;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public record ChapterResponseDTO (
 
         List<EmbeddedChapterDTO> subChapters,
 
-        @NotNull EmbeddedSurveyEditionDTO surveyEdition
+        @NotNull EmbeddedSurveyEditionDTO surveyEdition,
+
+        List<EmbeddedQuestionDTO> questions
 ) {
 }
