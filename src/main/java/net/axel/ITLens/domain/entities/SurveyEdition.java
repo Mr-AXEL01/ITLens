@@ -1,6 +1,8 @@
 package net.axel.ITLens.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -36,7 +38,6 @@ public class SurveyEdition implements Serializable {
     private LocalDate startDate;
 
     @NotNull
-    @Size(min = 4, max = 4)
     @Column(name = "year")
     private Year year;
 
