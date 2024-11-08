@@ -30,6 +30,16 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
     }
 
     @Override
+    public QuestionResponseDTO create(QuestionRequestDTO dto) {
+        Question question = mapper.toEntity(dto)
+                .setChapter(chapter(dto.chapterId()));
+
+        Question savedChapter = repository.save(question);
+
+        return mapper.toResponseDto(savedChapter);
+    }
+
+    @Override
     protected void updateEntity(Question question, QuestionRequestDTO dto) {
         question.setQuestionType(dto.questionType())
                 .setText(dto.text())
