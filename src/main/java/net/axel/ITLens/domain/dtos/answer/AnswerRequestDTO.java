@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record AnswerRequestDTO(
-        @NotNull String text,
-
-        @NotNull UUID questionId
+        @NotNull String text
 ) {
 }
