@@ -40,7 +40,10 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
     public QuestionResponseDTO create(QuestionRequestDTO dto) {
         Question question = mapper.toEntity(dto)
                 .setChapter(chapter(dto.chapterId()))
-                .setAnswers(mapAnswersRequestToEntity(dto.answers()));
+                .setAnswerCount(0);
+
+        Set<Answer> answers = mapAnswersRequestToEntity(dto.answers(), question);
+        question.setAnswers(answers);
 
         Question savedChapter = repository.save(question);
 
@@ -51,8 +54,12 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
     protected void updateEntity(Question question, QuestionRequestDTO dto) {
         question.setQuestionType(dto.questionType())
                 .setText(dto.text())
-                .setChapter(chapter(dto.chapterId()))
-                .setAnswers(mapAnswersRequestToEntity(dto.answers()));
+                .setChapter(chapter(dto.chapterId()));
+
+        question.getAnswers().clear();
+
+        Set<Answer> answers = mapAnswersRequestToEntity(dto.answers(), question);
+        question.setAnswers(answers);
     }
 
     private Chapter chapter(UUID chapterId) {
@@ -60,9 +67,13 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
         return chapterMapper.toEntityFromResponseDto(chapterResponse);
     }
 
-    private Set<Answer> mapAnswersRequestToEntity(List<AnswerRequestDTO> answersRequest) {
+    private Set<Answer> mapAnswersRequestToEntity(List<AnswerRequestDTO> answersRequest, Question question) {
         return answersRequest.stream()
-                .map(answerMapper::toEntity)
+                .map(answerRequestDTO -> {
+                    Answer answer = answerMapper.toEntity(answerRequestDTO);
+                    answer.setQuestion(question);
+                    return answer;
+                })
                 .collect(Collectors.toSet());
     }
 }
