@@ -11,7 +11,7 @@ import java.util.UUID;
 public record QuestionRequestDTO(
         @NotBlank String text,
 
-        @NotBlank QuestionType questionType,
+        @NotNull QuestionType questionType,
 
         @NotNull UUID chapterId,
 
