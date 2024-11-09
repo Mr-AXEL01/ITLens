@@ -30,7 +30,7 @@ public class Question implements Serializable {
     @Column(name = "text")
     private String text;
 
-    @NotBlank
+    @NotNull
     @Column(name = "question_type")
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
