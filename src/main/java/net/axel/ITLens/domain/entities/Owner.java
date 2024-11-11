@@ -30,4 +30,9 @@ public class Owner implements Serializable {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Survey> surveys = new HashSet<>();
+
+    public Owner(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
