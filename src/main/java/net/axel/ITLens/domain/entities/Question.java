@@ -37,7 +37,7 @@ public class Question implements Serializable {
 
     @NotNull
     @Column(name = "answer_count")
-    private Integer answerCount;
+    private int answerCount;
 
     @ManyToOne
     @JoinColumn(name = "chapter_id", nullable = false)

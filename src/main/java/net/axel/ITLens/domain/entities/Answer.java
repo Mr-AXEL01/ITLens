@@ -27,7 +27,7 @@ public class Answer implements Serializable {
     private String text;
 
     @Column(name = "selection_count")
-    private Integer selectionCount;
+    private int selectionCount;
 
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
