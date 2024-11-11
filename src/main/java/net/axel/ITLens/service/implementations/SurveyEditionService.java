@@ -1,7 +1,6 @@
 package net.axel.ITLens.service.implementations;
 
 import jakarta.transaction.Transactional;
-import net.axel.ITLens.domain.dtos.survey.EmbeddedSurveyDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.ResultsDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionRequestDTO;
@@ -9,6 +8,7 @@ import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionResponseDTO;
 import net.axel.ITLens.domain.entities.Survey;
 import net.axel.ITLens.domain.entities.SurveyEdition;
 import net.axel.ITLens.mapper.SurveyEditionMapper;
+import net.axel.ITLens.mapper.SurveyEditionResultMapper;
 import net.axel.ITLens.mapper.SurveyMapper;
 import net.axel.ITLens.repository.SurveyEditionRepository;
 import net.axel.ITLens.service.interfaces.ISurveyEditionService;
@@ -22,11 +22,13 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
 
     private final SurveyService surveyService;
     private final SurveyMapper surveyMapper;
+    private final SurveyEditionResultMapper surveyEditionResultMapper;
 
-    public SurveyEditionService(SurveyEditionRepository repository, SurveyEditionMapper mapper, SurveyService surveyService, SurveyMapper surveyMapper) {
+    public SurveyEditionService(SurveyEditionRepository repository, SurveyEditionMapper mapper, SurveyService surveyService, SurveyMapper surveyMapper, SurveyEditionResultMapper surveyEditionResultMapper) {
         super(repository, mapper);
         this.surveyService = surveyService;
         this.surveyMapper = surveyMapper;
+        this.surveyEditionResultMapper = surveyEditionResultMapper;
     }
 
     @Override
@@ -38,7 +40,6 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
 
         return mapper.toResponseDto(savedSurveyEdition);
     }
-
 
     @Override
     protected void updateEntity(SurveyEdition surveyEdition, SurveyEditionRequestDTO dto) {
@@ -55,12 +56,9 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
 
     @Override
     public ResultsDTO results(UUID surveyEditionId) {
-        SurveyEdition surveyEdition = repository.findById(surveyEditionId)
+        return repository.findById(surveyEditionId)
+                .map(surveyEditionResultMapper::mapToResultDto)
                 .orElseThrow(() -> new RuntimeException("No SurveyEdition found with this ID :" + surveyEditionId));
-
-        EmbeddedSurveyDTO embeddedSurveyDTO = new EmbeddedSurveyDTO(surveyEdition.getSurvey().getId(), surveyEdition.getSurvey().getTitle(), surveyEdition.getSurvey().getDescription());
-
-        ResultsDTO results = new ResultsDTO(embeddedSurveyDTO, )
-        return null;
     }
+
 }
