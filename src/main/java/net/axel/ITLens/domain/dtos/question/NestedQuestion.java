@@ -2,17 +2,18 @@ package net.axel.ITLens.domain.dtos.question;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import net.axel.ITLens.domain.enums.QuestionType;
+import net.axel.ITLens.domain.dtos.answer.EmbeddedAnswerDTO;
 
+import java.util.List;
 import java.util.UUID;
 
-public record EmbeddedQuestionDTO(
+public record NestedQuestion(
         @NotNull UUID id,
 
         @NotBlank String text,
 
-        @NotBlank QuestionType questionType,
+        List<EmbeddedAnswerDTO> answers,
 
-        @NotNull int answerCount
+        int answerCount
 ) {
 }

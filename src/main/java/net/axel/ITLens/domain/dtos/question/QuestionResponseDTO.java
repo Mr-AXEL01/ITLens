@@ -16,7 +16,7 @@ public record QuestionResponseDTO(
 
         @NotBlank QuestionType questionType,
 
-        @NotNull Integer answerCount,
+        @NotNull int answerCount,
 
         @NotNull EmbeddedChapterDTO chapter,
 
