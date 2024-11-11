@@ -54,8 +54,14 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
     protected void updateEntity(Question question, QuestionRequestDTO dto) {
         question.setQuestionType(dto.questionType())
                 .setText(dto.text())
-                .setChapter(chapter(dto.chapterId()))
-                .setAnswers(mapAnswersRequestToEntity(dto.answers(), question));
+                .setChapter(chapter(dto.chapterId()));
+
+        Set<Answer> newAnswers = mapAnswersRequestToEntity(dto.answers(), question);
+
+        question.getAnswers().clear();
+//        System.out.println("---------------------------------------------------------------------");
+//        System.out.println("wsalt hena : " + question.getAnswers());
+        question.getAnswers().addAll(newAnswers);
     }
 
     private Chapter chapter(UUID chapterId) {

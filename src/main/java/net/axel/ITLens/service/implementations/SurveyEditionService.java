@@ -1,7 +1,9 @@
 package net.axel.ITLens.service.implementations;
 
 import jakarta.transaction.Transactional;
+import net.axel.ITLens.domain.dtos.survey.EmbeddedSurveyDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
+import net.axel.ITLens.domain.dtos.surveyEdition.ResultsDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionRequestDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionResponseDTO;
 import net.axel.ITLens.domain.entities.Survey;
@@ -49,5 +51,16 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
     private Survey survey(UUID surveyId) {
         SurveyResponseDTO surveyResponse = surveyService.getById(surveyId);
         return surveyMapper.toEntityFromResponseDto(surveyResponse);
+    }
+
+    @Override
+    public ResultsDTO results(UUID surveyEditionId) {
+        SurveyEdition surveyEdition = repository.findById(surveyEditionId)
+                .orElseThrow(() -> new RuntimeException("No SurveyEdition found with this ID :" + surveyEditionId));
+
+        EmbeddedSurveyDTO embeddedSurveyDTO = new EmbeddedSurveyDTO(surveyEdition.getSurvey().getId(), surveyEdition.getSurvey().getTitle(), surveyEdition.getSurvey().getDescription());
+
+        ResultsDTO results = new ResultsDTO(embeddedSurveyDTO, )
+        return null;
     }
 }
