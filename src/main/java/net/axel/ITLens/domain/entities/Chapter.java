@@ -41,4 +41,8 @@ public class Chapter implements Serializable {
 
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
+
+    public boolean isParentChapter() {
+        return parentChapter == null;
+    }
 }
