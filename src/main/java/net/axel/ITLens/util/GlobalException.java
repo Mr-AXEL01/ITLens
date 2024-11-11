@@ -29,11 +29,17 @@ public class GlobalException {
         return new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 LocalDateTime.now(),
-                "vlidtion filed",
+                "vlidtion failed",
                 request.getDescription(false),
                 errors);
     }
 
-    record ErrorResponse(int status, LocalDateTime timestamp, String message, String desc, Object errors) {
+    record ErrorResponse(
+            int status,
+            LocalDateTime timestamp,
+            String message,
+            String desc,
+            Object errors
+    ) {
     }
 }
