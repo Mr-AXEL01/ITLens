@@ -3,11 +3,9 @@ package net.axel.ITLens.controller;
 import net.axel.ITLens.domain.dtos.survey.*;
 import net.axel.ITLens.domain.entities.Survey;
 import net.axel.ITLens.service.interfaces.ISurveyService;
-import org.springframework.boot.actuate.management.HeapDumpWebEndpoint;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,7 +22,7 @@ public class SurveyController extends BaseController<Survey, SurveyRequestDTO, S
 
     @PostMapping("/{surveyId}/participate")
     public ResponseEntity<Void> participate(@PathVariable("surveyId") UUID surveyId,
-                                            @RequestBody Payload surveyParticipateRequestDTO) {
+                                            @RequestBody SurveySubmissionWrapped surveyParticipateRequestDTO) {
         surveyService.participate(surveyId, surveyParticipateRequestDTO.submissions());
         return ResponseEntity.noContent().build();
     }

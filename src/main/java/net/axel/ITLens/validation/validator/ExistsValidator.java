@@ -34,6 +34,6 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
                 .setParameter("value", value)
                 .getSingleResult();
 
-        return count == 0;
+        return count > 0;
     }
 }
