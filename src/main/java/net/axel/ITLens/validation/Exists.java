@@ -20,5 +20,7 @@ public @interface Exists {
 
     Class<? extends Payload>[] payload() default {};
 
+    String fieldName();
+
     Class<?> entityClass();
 }
