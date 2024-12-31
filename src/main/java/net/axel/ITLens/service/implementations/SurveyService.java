@@ -49,9 +49,18 @@ public class SurveyService extends BaseService<Survey, SurveyRequestDTO, SurveyR
 
     @Override
     protected void updateEntity(Survey survey, SurveyRequestDTO dto) {
-        survey.setTitle(dto.title())
-                .setDescription(dto.description())
-                .setOwner(owner(dto.ownerId()));
+        if (dto.title() != null) {
+            survey.setTitle(dto.title());
+        }
+
+        if (dto.description() != null) {
+            survey.setDescription(dto.description());
+        }
+
+        if (dto.ownerId() != null) {
+            survey.setOwner(owner(dto.ownerId()));
+        }
+
     }
 
     private Owner owner(UUID ownerId) {
