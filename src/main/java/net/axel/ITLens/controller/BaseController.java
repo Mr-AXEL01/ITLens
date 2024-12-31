@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
+@CrossOrigin("http://localhost:4200/")
 public abstract class BaseController<E, D, R, K> {
 
     protected final IBaseService<E, D, R, K> baseService;
