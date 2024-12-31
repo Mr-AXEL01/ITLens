@@ -1,6 +1,8 @@
 package net.axel.ITLens.controller;
 
-import net.axel.ITLens.domain.dtos.survey.*;
+import net.axel.ITLens.domain.dtos.survey.SurveyRequestDTO;
+import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
+import net.axel.ITLens.domain.dtos.survey.SurveySubmissionWrapped;
 import net.axel.ITLens.domain.entities.Survey;
 import net.axel.ITLens.service.interfaces.ISurveyService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,8 @@ public class SurveyController extends BaseController<Survey, SurveyRequestDTO, S
 
     @PostMapping("/{surveyId}/participate")
     public ResponseEntity<Void> participate(@PathVariable("surveyId") UUID surveyId,
-                                            @RequestBody SurveySubmissionWrapped surveyParticipateRequestDTO) {
+                                            @RequestBody
+                                            SurveySubmissionWrapped surveyParticipateRequestDTO) {
         surveyService.participate(surveyId, surveyParticipateRequestDTO.submissions());
         return ResponseEntity.noContent().build();
     }
