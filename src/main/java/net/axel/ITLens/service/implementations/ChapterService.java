@@ -13,6 +13,7 @@ import net.axel.ITLens.service.interfaces.IChapterService;
 import net.axel.ITLens.service.interfaces.ISurveyEditionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,6 +29,16 @@ public class ChapterService extends BaseService<Chapter, ChapterRequestDTO, Chap
         this.surveyEditionService = surveyEditionService;
         this.surveyEditionMapper = surveyEditionMapper;
     }
+
+    @Override
+    public List<ChapterResponseDTO> getAll() {
+        return repository.findAll()
+                .stream()
+                .filter(chapter -> chapter.getParentChapter() == null)
+                .map(mapper::toResponseDto)
+                .toList();
+    }
+
 
     @Override
     public ChapterResponseDTO create(ChapterRequestDTO dto) {
