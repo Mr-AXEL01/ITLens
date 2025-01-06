@@ -11,9 +11,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Year;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "survey_editions")
@@ -46,5 +44,5 @@ public class SurveyEdition implements Serializable {
     private Survey survey;
 
     @OneToMany(mappedBy = "surveyEdition", cascade = CascadeType.ALL)
-    private Set<Chapter> chapters = new HashSet<>();
+    private List<Chapter> chapters = new ArrayList<>();
 }
