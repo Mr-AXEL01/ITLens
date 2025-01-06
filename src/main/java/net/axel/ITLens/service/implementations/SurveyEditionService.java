@@ -1,10 +1,14 @@
 package net.axel.ITLens.service.implementations;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import net.axel.ITLens.domain.dtos.chapter.ChapterResponseDTO;
+import net.axel.ITLens.domain.dtos.chapter.EmbeddedChapterDTO;
 import net.axel.ITLens.domain.dtos.survey.SurveyResponseDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.ResultsDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionRequestDTO;
 import net.axel.ITLens.domain.dtos.surveyEdition.SurveyEditionResponseDTO;
+import net.axel.ITLens.domain.entities.Chapter;
 import net.axel.ITLens.domain.entities.Survey;
 import net.axel.ITLens.domain.entities.SurveyEdition;
 import net.axel.ITLens.mapper.SurveyEditionMapper;
@@ -14,24 +18,47 @@ import net.axel.ITLens.repository.SurveyEditionRepository;
 import net.axel.ITLens.service.interfaces.ISurveyEditionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditionRequestDTO, SurveyEditionResponseDTO, UUID> implements ISurveyEditionService {
+@RequiredArgsConstructor
+public class SurveyEditionService implements ISurveyEditionService {
 
+    private final SurveyEditionRepository repository;
+    private final SurveyEditionMapper mapper;
     private final SurveyService surveyService;
     private final SurveyMapper surveyMapper;
     private final SurveyEditionResultMapper surveyEditionResultMapper;
 
-    public SurveyEditionService(SurveyEditionRepository repository, SurveyEditionMapper mapper, SurveyService surveyService, SurveyMapper surveyMapper, SurveyEditionResultMapper surveyEditionResultMapper) {
-        super(repository, mapper);
-        this.surveyService = surveyService;
-        this.surveyMapper = surveyMapper;
-        this.surveyEditionResultMapper = surveyEditionResultMapper;
+    @Override
+    public List<SurveyEditionResponseDTO> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
-    @Override
+    public SurveyEditionResponseDTO getById(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+
+        SurveyEdition surveyEdition = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SurveyEdition not found with id: " + id));
+
+        List<Chapter> filteredChapters = surveyEdition.getChapters()
+                .stream()
+                .filter(chapter -> chapter.getParentChapter() == null)
+                .toList();
+
+        surveyEdition.setChapters(filteredChapters);
+
+        return mapper.toResponseDto(surveyEdition);
+    }
+
     public SurveyEditionResponseDTO create(SurveyEditionRequestDTO dto) {
         SurveyEdition surveyEdition = mapper.toEntity(dto)
                 .setSurvey(survey(dto.surveyId()));
@@ -41,12 +68,33 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
         return mapper.toResponseDto(savedSurveyEdition);
     }
 
-    @Override
-    protected void updateEntity(SurveyEdition surveyEdition, SurveyEditionRequestDTO dto) {
+    public SurveyEditionResponseDTO update(UUID id, SurveyEditionRequestDTO dto) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+
+        SurveyEdition surveyEdition = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SurveyEdition not found with id: " + id));
+
         surveyEdition.setCreationDate(dto.creationDate())
                 .setStartDate(dto.startDate())
                 .setYear(dto.year())
                 .setSurvey(survey(dto.surveyId()));
+
+        return mapper.toResponseDto(surveyEdition);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
+
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("SurveyEdition not found with id: " + id);
+        }
+
+        repository.deleteById(id);
     }
 
     private Survey survey(UUID surveyId) {
@@ -54,7 +102,7 @@ public class SurveyEditionService extends BaseService<SurveyEdition, SurveyEditi
         return surveyMapper.toEntityFromResponseDto(surveyResponse);
     }
 
-    @Override
+
     public ResultsDTO results(UUID surveyEditionId) {
         return repository.findById(surveyEditionId)
                 .map(surveyEditionResultMapper::mapToResultDto)
