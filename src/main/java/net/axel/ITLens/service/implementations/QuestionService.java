@@ -36,6 +36,14 @@ public class QuestionService extends BaseService<Question, QuestionRequestDTO, Q
         this.answerMapper = answerMapper;
     }
 
+    public List<QuestionResponseDTO> findByChapter(UUID chapterId) {
+        return ((QuestionRepository) repository)
+                .findQuestionsByChapterId(chapterId)
+                .stream()
+                .map(mapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public QuestionResponseDTO create(QuestionRequestDTO dto) {
         Question question = mapper.toEntity(dto)
